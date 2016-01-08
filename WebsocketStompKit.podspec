@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "WebsocketStompKit"
-  s.version      = "0.1.2"
+  s.version      = "0.1.3"
   s.summary      = "STOMP over Websocket Objective-C Client for iOS."
   s.homepage     = "https://github.com/wollodev/WebsocketStompKit"
   s.license      = 'Apache License, Version 2.0'
