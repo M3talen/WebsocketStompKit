@@ -577,6 +577,12 @@ CFAbsoluteTime serverActivity;
 // However, STOMPKit can handle binary data so no harm in leaving this here
 - (void)websocket:(JFRWebSocket*)socket didReceiveData:(NSData*)data {
     serverActivity = CFAbsoluteTimeGetCurrent();
+    
+    if ([[NSData dataWithBytes:"\x0A" length:1] isEqual:data]) {
+        LogDebug(@">>> PONG");
+        return;
+    }
+    
     STOMPFrame *frame = [STOMPFrame STOMPFrameFromData:data];
     [self receivedFrame:frame];
 }
@@ -584,9 +590,7 @@ CFAbsoluteTime serverActivity;
 // TEXT FRAMES!
 // This is where all the goodness should arrive
 - (void)websocket:(JFRWebSocket*)socket didReceiveMessage:(NSString *)string {
-    serverActivity = CFAbsoluteTimeGetCurrent();
-    STOMPFrame *frame = [STOMPFrame STOMPFrameFromData:[string dataUsingEncoding:NSUTF8StringEncoding]];
-    [self receivedFrame:frame];
+    [self websocket:socket didReceiveData:[string dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (void)websocketDidDisconnect:(JFRWebSocket*)socket error:(NSError*)error {
