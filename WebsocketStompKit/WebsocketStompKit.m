@@ -54,7 +54,7 @@
 #pragma mark -
 #pragma mark STOMP Client private interface
 
-@interface STOMPClient()
+@interface STOMPClient()<JFRWebSocketDelegate>
 
 @property (nonatomic, retain) JFRWebSocket *socket;
 @property (nonatomic, copy) NSURL *url;
