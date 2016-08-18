@@ -455,7 +455,7 @@ CFAbsoluteTime serverActivity;
     NSInteger ttl = [dict[@"ttl"] intValue];
     
     CFAbsoluteTime delta = CFAbsoluteTimeGetCurrent() - serverActivity;
-    if (delta > (ttl * 2)) {
+    if (delta > (ttl * 3)) {
         LogDebug(@"did not receive server activity for the last %f seconds", delta);
         [self disconnect:errorHandler];
     }
