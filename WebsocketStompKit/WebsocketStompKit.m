@@ -20,11 +20,12 @@
 
 #ifdef DEBUG // set to 1 to enable logs
 
-#define LogDebug(frmt, ...) NSLog(frmt, ##__VA_ARGS__);
+#define LogDebug(frmt, ...) {}
 
 #else
 
-#define LogDebug(frmt, ...) {}
+#define LogDebug(frmt, ...) NSLog(frmt, ##__VA_ARGS__);
+
 
 #endif
 
@@ -137,7 +138,7 @@
             for (int i=0; i < [line length]; i++) {
                 unichar c = [line characterAtIndex:i];
                 if (c != '\x00') {
-                    [body appendString:[NSString stringWithFormat:@"%c", c]];
+                    [body appendString:[NSString stringWithFormat:@"%C", c]];
                 }
             }
         } else {
@@ -369,7 +370,7 @@ CFAbsoluteTime serverActivity;
     NSMutableDictionary *msgHeaders = [NSMutableDictionary dictionaryWithDictionary:headers];
     msgHeaders[kHeaderDestination] = destination;
     if (body) {
-        msgHeaders[kHeaderContentLength] = [NSNumber numberWithLong:[body length]];
+        msgHeaders[kHeaderContentLength] = [NSNumber numberWithLong:[body lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     }
     [self sendFrameWithCommand:kCommandSend
                        headers:msgHeaders
